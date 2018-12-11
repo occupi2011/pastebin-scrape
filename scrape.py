@@ -8,6 +8,8 @@ This is currently very crude, but works.
 
 You must have a lifetime pro membership to pastebin and have your IP
 address whitelisted in order for this to function.
+
+modified by occupi @ 0x00sec 2018
 """
 
 import re
@@ -38,7 +40,13 @@ def is_interesting(data):
     finduseraction = re.compile("^[a-zA-Z]+\s[0-9]+\s[0-9:]{8}\s\*\s+([A-Za-z]+)\s", re.MULTILINE)
     found_useractions = finduseraction.findall(data.lower())
     if found_useractions:
-        return True   
+        return True
+    
+    combo_regex = re.compile(".*@[\w]*\.[\w]{2,3}:\S*")
+    found_combos = combo_regex.findall(data.lower())
+    if found_combos:
+        return True
+
     #if 'exploit' in data.lower():
     #    return True
     #if 'pass' in data.lower():
@@ -95,7 +103,7 @@ def main():
                 # TODO: make sure this succeeds
                 filep = open(filename, 'w')
                 # TODO: ability to specify write directory, folders by date.
-                filep.write(str(scrape_data))
+                filep.write("%s".format(scrape_data))
                 filep.close()
                 
 
